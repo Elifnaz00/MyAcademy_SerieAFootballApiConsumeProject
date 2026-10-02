@@ -12,11 +12,11 @@ namespace SerieA.Api.Entities
 
 
 
-        public ICollection<Match> HomeMathces { get; set; }
-        public ICollection<Match> AwayMathces { get; set; }
+        public ICollection<Match> HomeMatches { get; set; }
+        public ICollection<Match> AwayMatches { get; set; }
 
         public ICollection<MatchGoal> Goals { get; set; }
         public ICollection<MatchCard> MatchCards { get; set; }
-        public ICollection<Substıtutıon> Substıtutıons { get; set; }
+        public ICollection<Substitution> Substitutions { get; set; }
     }
 }

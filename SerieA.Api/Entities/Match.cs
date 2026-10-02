@@ -24,7 +24,7 @@ namespace SerieA.Api.Entities
 
         public ICollection<MatchGoal> Goals { get; set; }
         public ICollection<MatchCard> MatchCards { get; set; }
-        public ICollection<Substıtutıon> Substıtutıons { get; set; }
+        public ICollection<Substitution> Substitutions { get; set; }
 
 
     }
