@@ -52,5 +52,13 @@ namespace SerieA.Api.Controllers
 
             return Ok(mappedMatch);
         }
+
+
+        [HttpGet("week/{week}")]    
+        public async Task<IActionResult> GetMatchesByWeek(string week)
+        {
+            var matchesByWeek= await _context.Matches.Include(x=>x.AwayTeam).Include(x=>x.HomeTeam).AsNoTracking().Where(x => x.Week == week).ToListAsync();
+            return Ok(matchesByWeek);
+        }
     }
 }

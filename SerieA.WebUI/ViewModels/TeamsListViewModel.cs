@@ -1,6 +1,6 @@
 ﻿namespace SerieA.WebUI.ViewModels
 {
-    public class StandingResultViewModel
+    public class TeamsListViewModel
     {
     }
 }
