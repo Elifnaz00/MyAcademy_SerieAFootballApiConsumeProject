@@ -1,5 +1,4 @@
-﻿@using SerieA.WebUI.ViewModels
-@model StandingsResultViewModel
+﻿
 @{
     Layout = null;
 }
@@ -42,7 +41,7 @@
             --ice: #A9BCDF;
             --green: #1FC98A;
             --amber: #F2B53B;
-            --red: #F2475C;
+            --red: #F2475FixtureService 
             --radius-lg: 20px;
             --radius-md: 14px;
             --radius-sm: 10px;
@@ -1105,7 +1104,7 @@
     </style>
 </head>
 <body class="fixtures-page">
-    <main class="fixtures-shell container-xl" data-fixtures-page data-current-week="12">
+    <main class="fixtures-shell container-xl" data-fixtures-page data-current-week="3">
 
         <!-- ===== Partial: _FixturesHero ===== -->
         <header class="fixtures-hero">
@@ -1194,7 +1193,7 @@
             fiorentina: { name: 'Fiorentina', code: 'FIO', a: '#5B2A86', b: '#FFFFFF', ink: '#fff',    stadium: 'Stadio Artemio Franchi' },
             bologna:    { name: 'Bologna',    code: 'BOL', a: '#1A2F5A', b: '#A21C26', ink: '#fff',    stadium: "Stadio Renato Dall'Ara" },
             torino:     { name: 'Torino',     code: 'TOR', a: '#7E1B1B', b: '#E9D9B0', ink: '#fff',    stadium: 'Stadio Olimpico Grande Torino' },
-            como:       { name: 'Como',       code: 'COM', a: '#0B3E91', b: '#FFFFFF', ink: '#fff',    stadium: 'Stadio Giuseppe Sinigaglia' },
+            verona:     { name: 'Verona',     code: 'VER', a: '#00529F', b: '#FFD800', ink: '#fff', stadium: 'Stadio Marcantonio Bentegodi' },
             parma:      { name: 'Parma',      code: 'PAR', a: '#FFD200', b: '#1D3E8A', ink: '#10224A', stadium: 'Stadio Ennio Tardini' },
             udinese:    { name: 'Udinese',    code: 'UDI', a: '#26282C', b: '#FFFFFF', ink: '#fff',    stadium: 'Bluenergy Stadium' },
             genoa:      { name: 'Genoa',      code: 'GEN', a: '#A2172E', b: '#002B5C', ink: '#fff',    stadium: 'Stadio Luigi Ferraris' },
@@ -1202,17 +1201,29 @@
             cagliari:   { name: 'Cagliari',   code: 'CAG', a: '#A5162B', b: '#0E2A56', ink: '#fff',    stadium: 'Unipol Domus' },
             lecce:      { name: 'Lecce',      code: 'LEC', a: '#F6D000', b: '#D21F26', ink: '#3A1206', stadium: 'Stadio Via del Mare' },
             monza:      { name: 'Monza',      code: 'MON', a: '#D2122E', b: '#FFFFFF', ink: '#fff',    stadium: 'U-Power Stadium' },
-            frosinone:  { name: 'Frosinone',  code: 'FRO', a: '#1C4E9A', b: '#FFD200', ink: '#fff',    stadium: 'Stadio Benito Stirpe' },
-            venezia:    { name: 'Venezia',    code: 'VEN', a: '#141414', b: '#F06A1A', ink: '#fff',    stadium: 'Stadio Pier Luigi Penzo' }
+            empoli:     { name: 'Empoli',     code: 'EMP', a: '#005CA9', b: '#FFFFFF', ink: '#fff', stadium: 'Stadio Carlo Castellani' },
+            sampdoria:  { name: 'Sampdoria',  code: 'SAM', a: '#1D4F91', b: '#FFFFFF', ink: '#fff', stadium: 'Stadio Luigi Ferraris' }
+            
           };
 
           /* ---------- Hafta bilgisi (API: /api/weeks) ---------- */
-          const WEEKS = {
-            11: { start: '2026-10-31', end: '2026-11-02', featuredId: 131 },
-            12: { start: '2026-11-07', end: '2026-11-09', featuredId: 145 },
-            13: { start: '2026-11-14', end: '2026-11-16', featuredId: 151 }
-          };
-
+                 const WEEKS = {
+            1: {
+                start: '2026-08-22',
+                end: '2026-08-25',
+                featuredId: 1
+            },
+            2: {
+                start: '2026-08-29',
+                end: '2026-09-01',
+                featuredId: 11
+            },
+            3: {
+                start: '2026-09-05',
+                end: '2026-09-08',
+                featuredId: 21
+            }
+        };
           /* ---------- Demo fikstür (API: GET /api/fixtures/week/{week}) ---------- */
           const m = (id, kickoff, home, away, status, hs = null, as = null, extra = {}) =>
             ({ id, kickoff, home, away, status, score: hs === null ? null : { home: hs, away: as }, ...extra });
@@ -1259,11 +1270,79 @@
           /* ---------- Veri servisi ----------
              Gerçek API'ye geçerken yalnızca bu fonksiyonun gövdesi değişir:
              return fetch(`/api/fixtures/week/${week}`).then(r => r.json());            */
-          const FixtureService = {
-            getWeek(week) {
-              return Promise.resolve(fixtures[week] ? structuredCloneSafe(fixtures[week]) : []);
+              const FixtureService = {
+            async getWeek(week) {
+                const response = await fetch(`/Fixtures/GetByWeek?week=${week}`);
+
+                if (!response.ok) {
+                    throw new Error("Fikstür verileri alınamadı.");
+                }
+
+                const data = await response.json();
+
+                return data.map(match => ({
+                    id: match.id,
+
+                    kickoff: match.matchDate,
+
+                    home: getTeamKey(match.homeTeam.name),
+                    away: getTeamKey(match.awayTeam.name),
+
+                    status: getStatusText(match.status),
+
+                    score: {
+                        home: match.homeScore,
+                        away: match.awayScore
+                    },
+
+                    stadium: match.stadium,
+                    week: match.week
+                }));
             }
-          };
+        };
+
+               function getStatusText(status) {
+            const statusMap = {
+                0: "NotStarted",
+                1: "Live",
+                2: "Finished",
+                3: "Postponed",
+                4: "Cancelled"
+            };
+
+            return statusMap[status] ?? "NotStarted";
+        }
+
+                    function getTeamKey(teamName) {
+            const teamKeys = {
+                "Inter": "inter",
+                "Milan": "milan",
+                "Juventus": "juventus",
+                "Napoli": "napoli",
+                "Roma": "roma",
+                "Lazio": "lazio",
+                "Atalanta": "atalanta",
+                "Fiorentina": "fiorentina",
+                "Bologna": "bologna",
+                "Torino": "torino",
+                "Verona": "verona",
+                "Parma": "parma",
+                "Udinese": "udinese",
+                "Genoa": "genoa",
+                "Sassuolo": "sassuolo",
+                "Cagliari": "cagliari",
+                "Lecce": "lecce",
+                "Monza": "monza",
+                "Empoli": "empoli",
+                "Sampdoria": "sampdoria"
+            };
+
+            return teamKeys[teamName];
+        }
+
+
+
+
           function structuredCloneSafe(v) { return JSON.parse(JSON.stringify(v)); }
 
           /* ---------- Yardımcılar ---------- */
@@ -1286,7 +1365,7 @@
             return `<span class="team-crest ${mod}" style="--crest-a:${t.a};--crest-b:${t.b};--crest-ink:${t.ink}" aria-hidden="true">${t.code}</span>`;
           }
           const hasScore = (f) => f.score && (f.status === 'Finished' || f.status === 'Live');
-          const detailUrl = (f) => `/Match/Detail/${f.id}`;
+          const detailUrl = (f) => `/Fixtures/Detail/${f.id}`;
           const chevron = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>';
 
           function statusBadge(f) {

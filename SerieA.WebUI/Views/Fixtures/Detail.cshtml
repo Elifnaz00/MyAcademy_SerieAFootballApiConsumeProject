@@ -1,4 +1,4 @@
-﻿
+﻿@model SerieA.WebUI.ViewModels.MatchDetailViewModel
 @{
     Layout = null;
 }
@@ -1305,7 +1305,7 @@
                 <ul class="comp-tags" aria-label="Müsabaka">
                     <li class="comp-tag comp-tag--league">Serie A</li>
                     <li class="comp-tag">2026/27</li>
-                    <li class="comp-tag">Hafta 12</li>
+                    <li class="comp-tag">Hafta @Model.Week</li>
                 </ul>
                 <span class="status-pill">Maç bitti</span>
             </div>
@@ -1315,7 +1315,7 @@
                     <span class="team-crest team-crest--xl crest-milan" aria-hidden="true">MIL</span>
                     <div>
                         <span class="sb-team__role">Ev sahibi</span>
-                        <h1 class="sb-team__name">Milan</h1>
+                        <h1 class="sb-team__name">@Model.HomeTeamName</h1>
                         <ul class="sb-scorers" aria-label="Milan golleri">
                             <li><svg class="i-ball" aria-hidden="true"><use href="#i-ball" /></svg>Rafael Leão 14'</li>
                             <li><svg class="i-ball" aria-hidden="true"><use href="#i-ball" /></svg>Olivier Giroud 41'</li>
@@ -1323,18 +1323,23 @@
                     </div>
                 </div>
 
-                <div class="sb-score">
-                    <p class="sb-score__value" aria-label="Skor: Milan 2, Roma 1">
-                        <span>2</span><span class="sb-score__sep" aria-hidden="true"></span><span class="is-loser">1</span>
-                    </p>
-                    <p class="sb-score__ht">İlk yarı 2-0</p>
-                </div>
+                <p class="sb-score__value"
+                   aria-label="Skor: @Model.HomeTeamName @Model.HomeScore, @Model.AwayTeamName @Model.AwayScore">
+
+                    <span>@Model.HomeScore</span>
+
+                    <span class="sb-score__sep" aria-hidden="true"></span>
+
+                    <span class="@(Model.HomeScore < Model.AwayScore ? "" : "is-loser")">
+                        @Model.AwayScore
+                    </span>
+                </p>
 
                 <div class="sb-team sb-team--away is-loser">
                     <span class="team-crest team-crest--xl crest-roma" aria-hidden="true">ROM</span>
                     <div>
                         <span class="sb-team__role">Deplasman</span>
-                        <h2 class="sb-team__name">Roma</h2>
+                        <h2 class="sb-team__name">@Model.AwayTeamName</h2>
                         <ul class="sb-scorers" aria-label="Roma golleri">
                             <li><svg class="i-ball" aria-hidden="true"><use href="#i-ball" /></svg>Tammy Abraham 72'</li>
                         </ul>
@@ -1343,10 +1348,20 @@
             </div>
 
             <ul class="hero-facts">
-                <li><svg aria-hidden="true"><use href="#i-calendar" /></svg>18 Kasım 2026</li>
-                <li><svg aria-hidden="true"><use href="#i-clock" /></svg>22:45</li>
-                <li><svg aria-hidden="true"><use href="#i-stadium" /></svg>San Siro</li>
-                <li><svg aria-hidden="true"><use href="#i-whistle" /></svg><span>Hakem:</span> Daniele Orsato</li>
+                <li>
+                    <svg aria-hidden="true"><use href="#i-calendar" /></svg>
+                    @Model.MatchDate.ToString("dd.MM.yyyy")
+                </li>
+
+                <li>
+                    <svg aria-hidden="true"><use href="#i-clock" /></svg>
+                    @Model.MatchDate.ToString("HH:mm")
+                </li>
+
+                <li>
+                    <svg aria-hidden="true"><use href="#i-stadium" /></svg>
+                    @Model.Stadium
+                </li>
             </ul>
 
             <!-- Partial: _MatchFlowStrip -->
@@ -1410,9 +1425,8 @@
                             <span></span>
                             <span>Roma<span class="team-crest team-crest--xs crest-roma">ROM</span></span>
                         </div>
-
-                      
- -->
+						
+                    
                         <ol class="timeline">
                             <li class="event event--period"><span class="period-mark">Başlama düdüğü</span></li>
 
@@ -1539,65 +1553,311 @@
 
                     <!-- Partial: _GoalsPanel + _CardsPanel -->
                     <section class="panel" aria-labelledby="goals-title">
-                        <div class="panel__head"><h2 class="panel__title" id="goals-title">Goller</h2></div>
+                        <div class="panel__head">
+                            <h2 class="panel__title" id="goals-title">Goller</h2>
+                        </div>
+
                         <div class="split">
+
+                            <!-- Ev sahibi golleri -->
                             <div class="split__col">
-                                <h3 class="split__team"><span class="team-crest team-crest--xs crest-milan" aria-hidden="true">MIL</span>Milan<span class="split__count">2 gol</span></h3>
+
+                                <h3 class="split__team">
+                                    <span class="team-crest team-crest--xs crest-milan" aria-hidden="true">MIL</span>
+                                    @Model.HomeTeamName
+                                    <span class="split__count">
+                                        @Model.Goals.Count(x => x.TeamId == Model.HomeTeamId) gol
+                                    </span>
+                                </h3>
+
                                 <ul class="item-list goal-list">
-                                    <li><span class="item-minute">14'</span><span class="item-main"><strong>Rafael Leão</strong><small>Asist: Theo Hernández</small></span></li>
-                                    <li><span class="item-minute">41'</span><span class="item-main"><strong>Olivier Giroud</strong><small>Asist: Rafael Leão</small></span></li>
+
+                                    @foreach (var goal in Model.Goals
+                                                                        .Where(x => x.TeamId == Model.HomeTeamId)
+                                                                        .OrderBy(x => x.Minute))
+                                    {
+                                        <li>
+                                            <span class="item-minute">@goal.Minute'</span>
+
+                                            <span class="item-main">
+                                                <strong>@goal.PlayerName</strong>
+                                            </span>
+                                        </li>
+                                    }
+
+                                    @if (!Model.Goals.Any(x => x.TeamId == Model.HomeTeamId))
+                                    {
+                                        <li>
+                                            <span class="item-empty">Gol bulunmuyor.</span>
+                                        </li>
+                                    }
+
                                 </ul>
                             </div>
+
+
+                            <!-- Deplasman golleri -->
                             <div class="split__col">
-                                <h3 class="split__team"><span class="team-crest team-crest--xs crest-roma" aria-hidden="true">ROM</span>Roma<span class="split__count">1 gol</span></h3>
+
+                                <h3 class="split__team">
+                                    <span class="team-crest team-crest--xs crest-roma" aria-hidden="true">ROM</span>
+                                    @Model.AwayTeamName
+                                    <span class="split__count">
+                                        @Model.Goals.Count(x => x.TeamId == Model.AwayTeamId) gol
+                                    </span>
+                                </h3>
+
                                 <ul class="item-list goal-list">
-                                    <li><span class="item-minute">72'</span><span class="item-main"><strong>Tammy Abraham</strong><small>Asist: Lorenzo Pellegrini</small></span></li>
+
+                                    @foreach (var goal in Model.Goals
+                                                                        .Where(x => x.TeamId == Model.AwayTeamId)
+                                                                        .OrderBy(x => x.Minute))
+                                    {
+                                        <li>
+                                            <span class="item-minute">@goal.Minute'</span>
+
+                                            <span class="item-main">
+                                                <strong>@goal.PlayerName</strong>
+                                            </span>
+                                        </li>
+                                    }
+
+                                    @if (!Model.Goals.Any(x => x.TeamId == Model.AwayTeamId))
+                                    {
+                                        <li>
+                                            <span class="item-empty">Gol bulunmuyor.</span>
+                                        </li>
+                                    }
+
                                 </ul>
                             </div>
+
                         </div>
                     </section>
-
                     <section class="panel" aria-labelledby="cards-title">
-                        <div class="panel__head"><h2 class="panel__title" id="cards-title">Kartlar</h2></div>
+                        <div class="panel__head">
+                            <h2 class="panel__title" id="cards-title">Kartlar</h2>
+                        </div>
+
                         <div class="split">
+
+                            <!-- Ev sahibi kartları -->
                             <div class="split__col">
-                                <h3 class="split__team"><span class="team-crest team-crest--xs crest-milan" aria-hidden="true">MIL</span>Milan<span class="split__count">2 kart</span></h3>
+
+                                <h3 class="split__team">
+                                    <span class="team-crest team-crest--xs crest-milan" aria-hidden="true">MIL</span>
+                                    @Model.HomeTeamName
+
+                                    <span class="split__count">
+                                        @Model.MatchCards.Count(x => x.TeamId == Model.HomeTeamId) kart
+                                    </span>
+                                </h3>
+
                                 <ul class="item-list">
-                                    <li><span class="item-minute">67'</span><span class="item-main"><strong>Fikayo Tomori</strong></span><span class="card-tag"><span class="i-card i-card--yellow"></span>Sarı</span></li>
-                                    <li><span class="item-minute">83'</span><span class="item-main"><strong>Theo Hernández</strong></span><span class="card-tag"><span class="i-card i-card--yellow"></span>Sarı</span></li>
+
+                                    @foreach (var card in Model.MatchCards
+                                                                        .Where(x => x.TeamId == Model.HomeTeamId)
+                                                                        .OrderBy(x => x.Minute))
+                                    {
+                                        <li>
+                                            <span class="item-minute">
+                                                @card.Minute'
+                                            </span>
+
+                                            <span class="item-main">
+                                                <strong>@card.PlayerName</strong>
+                                            </span>
+
+                                            <span class="card-tag">
+
+                                                @if (card.CardType == 0)
+                                                {
+                                                    <span class="i-card i-card--yellow"></span>
+                                                    <span>Sarı</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="i-card i-card--red"></span>
+                                                    <span>Kırmızı</span>
+                                                }
+
+                                            </span>
+                                        </li>
+                                    }
+
+                                    @if (!Model.MatchCards.Any(x => x.TeamId == Model.HomeTeamId))
+                                    {
+                                        <li>
+                                            <span class="item-empty">Kart bulunmuyor.</span>
+                                        </li>
+                                    }
+
                                 </ul>
                             </div>
+
+
+                            <!-- Deplasman kartları -->
                             <div class="split__col">
-                                <h3 class="split__team"><span class="team-crest team-crest--xs crest-roma" aria-hidden="true">ROM</span>Roma<span class="split__count">4 kart</span></h3>
+
+                                <h3 class="split__team">
+                                    <span class="team-crest team-crest--xs crest-roma" aria-hidden="true">ROM</span>
+                                    @Model.AwayTeamName
+
+                                    <span class="split__count">
+                                        @Model.MatchCards.Count(x => x.TeamId == Model.AwayTeamId) kart
+                                    </span>
+                                </h3>
+
                                 <ul class="item-list">
-                                    <li><span class="item-minute">27'</span><span class="item-main"><strong>Paulo Dybala</strong></span><span class="card-tag"><span class="i-card i-card--yellow"></span>Sarı</span></li>
-                                    <li><span class="item-minute">54'</span><span class="item-main"><strong>Bryan Cristante</strong></span><span class="card-tag"><span class="i-card i-card--yellow"></span>Sarı</span></li>
-                                    <li><span class="item-minute">74'</span><span class="item-main"><strong>Gianluca Mancini</strong></span><span class="card-tag"><span class="i-card i-card--yellow"></span>Sarı</span></li>
-                                    <li><span class="item-minute">90+2'</span><span class="item-main"><strong>Diego Llorente</strong></span><span class="card-tag"><span class="i-card i-card--red"></span>Kırmızı</span></li>
+
+                                    @foreach (var card in Model.MatchCards
+                                                                        .Where(x => x.TeamId == Model.AwayTeamId)
+                                                                        .OrderBy(x => x.Minute))
+                                    {
+                                        <li>
+                                            <span class="item-minute">
+                                                @card.Minute'
+                                            </span>
+
+                                            <span class="item-main">
+                                                <strong>@card.PlayerName</strong>
+                                            </span>
+
+                                            <span class="card-tag">
+
+                                                @if (card.CardType == 0)
+                                                {
+                                                    <span class="i-card i-card--yellow"></span>
+                                                    <span>Sarı</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="i-card i-card--red"></span>
+                                                    <span>Kırmızı</span>
+                                                }
+
+                                            </span>
+                                        </li>
+                                    }
+
+                                    @if (!Model.MatchCards.Any(x => x.TeamId == Model.AwayTeamId))
+                                    {
+                                        <li>
+                                            <span class="item-empty">Kart bulunmuyor.</span>
+                                        </li>
+                                    }
+
                                 </ul>
                             </div>
+
                         </div>
                     </section>
 
                     <!-- Partial: _SubstitutionsPanel -->
                     <section class="panel" aria-labelledby="subs-title">
-                        <div class="panel__head"><h2 class="panel__title" id="subs-title">Oyuncu değişiklikleri</h2></div>
+                        <div class="panel__head">
+                            <h2 class="panel__title" id="subs-title">
+                                Oyuncu değişiklikleri
+                            </h2>
+                        </div>
+
                         <div class="split">
+
+                            <!-- Ev sahibi değişiklikleri -->
                             <div class="split__col">
-                                <h3 class="split__team"><span class="team-crest team-crest--xs crest-milan" aria-hidden="true">MIL</span>Milan<span class="split__count">3 değişiklik</span></h3>
+
+                                <h3 class="split__team">
+                                    <span class="team-crest team-crest--xs crest-milan" aria-hidden="true">MIL</span>
+                                    @Model.HomeTeamName
+
+                                    <span class="split__count">
+                                        @Model.Substitutions.Count(x => x.TeamId == Model.HomeTeamId) değişiklik
+                                    </span>
+                                </h3>
+
                                 <ul class="item-list">
-                                    <li><span class="item-minute">64'</span><span class="item-main"><strong class="sub-in">Christian Pulisic</strong><small class="sub-out">Samuel Chukwueze</small></span></li>
-                                    <li><span class="item-minute">78'</span><span class="item-main"><strong class="sub-in">Yunus Musah</strong><small class="sub-out">Ruben Loftus-Cheek</small></span></li>
-                                    <li><span class="item-minute">88'</span><span class="item-main"><strong class="sub-in">Noah Okafor</strong><small class="sub-out">Rafael Leão</small></span></li>
+
+                                    @foreach (var sub in Model.Substitutions
+                                                                        .Where(x => x.TeamId == Model.HomeTeamId)
+                                                                        .OrderBy(x => x.Minute))
+                                    {
+                                        <li>
+                                            <span class="item-minute">
+                                                @sub.Minute'
+                                            </span>
+
+                                            <span class="item-main">
+                                                <strong class="sub-in">
+                                                    @sub.PlayerIn
+                                                </strong>
+
+                                                <small class="sub-out">
+                                                    @sub.PlayerOut
+                                                </small>
+                                            </span>
+                                        </li>
+                                    }
+
+                                    @if (!Model.Substitutions.Any(x => x.TeamId == Model.HomeTeamId))
+                                    {
+                                        <li>
+                                            <span class="item-empty">
+                                                Değişiklik bulunmuyor.
+                                            </span>
+                                        </li>
+                                    }
+
                                 </ul>
                             </div>
+
+
+                            <!-- Deplasman değişiklikleri -->
                             <div class="split__col">
-                                <h3 class="split__team"><span class="team-crest team-crest--xs crest-roma" aria-hidden="true">ROM</span>Roma<span class="split__count">2 değişiklik</span></h3>
+
+                                <h3 class="split__team">
+                                    <span class="team-crest team-crest--xs crest-roma" aria-hidden="true">ROM</span>
+                                    @Model.AwayTeamName
+
+                                    <span class="split__count">
+                                        @Model.Substitutions.Count(x => x.TeamId == Model.AwayTeamId) değişiklik
+                                    </span>
+                                </h3>
+
                                 <ul class="item-list">
-                                    <li><span class="item-minute">58'</span><span class="item-main"><strong class="sub-in">Lorenzo Pellegrini</strong><small class="sub-out">Stephan El Shaarawy</small></span></li>
-                                    <li><span class="item-minute">79'</span><span class="item-main"><strong class="sub-in">Andrea Belotti</strong><small class="sub-out">Tammy Abraham</small></span></li>
+
+                                    @foreach (var sub in Model.Substitutions
+                                                                        .Where(x => x.TeamId == Model.AwayTeamId)
+                                                                        .OrderBy(x => x.Minute))
+                                    {
+                                        <li>
+                                            <span class="item-minute">
+                                                @sub.Minute'
+                                            </span>
+
+                                            <span class="item-main">
+                                                <strong class="sub-in">
+                                                    @sub.PlayerIn
+                                                </strong>
+
+                                                <small class="sub-out">
+                                                    @sub.PlayerOut
+                                                </small>
+                                            </span>
+                                        </li>
+                                    }
+
+                                    @if (!Model.Substitutions.Any(x => x.TeamId == Model.AwayTeamId))
+                                    {
+                                        <li>
+                                            <span class="item-empty">
+                                                Değişiklik bulunmuyor.
+                                            </span>
+                                        </li>
+                                    }
+
                                 </ul>
                             </div>
+
                         </div>
                     </section>
                 </div>
@@ -1691,15 +1951,35 @@
                     <section class="panel" aria-labelledby="info-title">
                         <div class="panel__head"><h2 class="panel__title" id="info-title">Maç bilgileri</h2></div>
                         <dl class="info-list">
-                            <div><dt>Lig</dt><dd>Serie A</dd></div>
-                            <div><dt>Sezon</dt><dd>2026/27</dd></div>
-                            <div><dt>Hafta</dt><dd>12</dd></div>
-                            <div><dt>Stadyum</dt><dd>San Siro</dd></div>
-                            <div><dt>Şehir</dt><dd>Milano, İtalya</dd></div>
-                            <div><dt>Hakem</dt><dd>Daniele Orsato</dd></div>
-                            <div><dt>Seyirci</dt><dd>72.145</dd></div>
-                            <div><dt>Tarih</dt><dd>18 Kasım 2026</dd></div>
-                            <div><dt>Saat</dt><dd>22:45</dd></div>
+                            <div>
+                                <dt>Lig</dt>
+                                <dd>Serie A</dd>
+                            </div>
+
+                            <div>
+                                <dt>Sezon</dt>
+                                <dd>2026/27</dd>
+                            </div>
+
+                            <div>
+                                <dt>Hafta</dt>
+                                <dd>@Model.Week</dd>
+                            </div>
+
+                            <div>
+                                <dt>Stadyum</dt>
+                                <dd>@Model.Stadium</dd>
+                            </div>
+
+                            <div>
+                                <dt>Tarih</dt>
+                                <dd>@Model.MatchDate.ToString("dd.MM.yyyy")</dd>
+                            </div>
+
+                            <div>
+                                <dt>Saat</dt>
+                                <dd>@Model.MatchDate.ToString("HH:mm")</dd>
+                            </div>
                         </dl>
                     </section>
                 </aside>

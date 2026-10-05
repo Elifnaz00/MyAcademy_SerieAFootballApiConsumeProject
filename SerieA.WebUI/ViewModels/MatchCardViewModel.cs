@@ -1,16 +1,14 @@
-﻿
-
-namespace SerieA.Api.DTOs.MatchGoalDtos
+﻿namespace SerieA.WebUI.ViewModels
 {
-    public class ResultMatchGoalDto
+    public class MatchCardViewModel
     {
         public int Id { get; set; }
         public int MatchId { get; set; }
         public int TeamId { get; set; }
 
-       
         public string PlayerName { get; set; }
         public int Minute { get; set; }
-    }
 
+        public int CardType { get; set; }
+    }
 }

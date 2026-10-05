@@ -1,4 +1,5 @@
-﻿using SerieA.Api.Entities;
+﻿using SerieA.Api.DTOs.TeamDtos;
+using SerieA.Api.Entities;
 using SerieA.Api.Entities.Enums;
 
 namespace SerieA.Api.DTOs.MatchesDtos
@@ -9,8 +10,8 @@ namespace SerieA.Api.DTOs.MatchesDtos
     public int HomeTeamId { get; set; }
     public int AwayTeamId { get; set; }
 
-    public Team HomeTeam { get; set; }
-    public Team AwayTeam { get; set; }
+    public TeamDto HomeTeam { get; set; }
+    public TeamDto AwayTeam { get; set; }
 
     public string Week { get; set; }
     public DateTime MatchDate { get; set; }

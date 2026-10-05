@@ -3,6 +3,7 @@ using SerieA.Api.DTOs.MatchCardDtos;
 using SerieA.Api.DTOs.MatchesDtos;
 using SerieA.Api.DTOs.MatchGoalDtos;
 using SerieA.Api.DTOs.SubstitutionDto;
+using SerieA.Api.DTOs.TeamDtos;
 using SerieA.Api.Entities;
 
 namespace SerieA.Api.Mappings
@@ -23,6 +24,7 @@ namespace SerieA.Api.Mappings
             CreateMap<MatchCard, ResultMatchCardDto>();
             CreateMap<Substitution, ResultSubstitutionDto>();
             CreateMap<MatchGoal, ResultMatchGoalDto>();
+            CreateMap<Team, TeamDto>();
           
         }
     }
