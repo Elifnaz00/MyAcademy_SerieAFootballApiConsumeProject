@@ -10,6 +10,14 @@ namespace SerieA.Api.Entities
         public string City { get; set; }
         public string Stadium { get; set; }
 
+        public string Capacity { get; set; }
+
+        public string Founded { get; set; }
+
+        public bool IsActive { get; set; }
+        public string ColorA { get; set; }
+        public string ColorB { get; set; }
+
 
 
         public ICollection<Match> HomeMatches { get; set; }

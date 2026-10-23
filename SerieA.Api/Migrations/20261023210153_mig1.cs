@@ -20,7 +20,12 @@ namespace SerieA.Api.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LogoUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     City = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Stadium = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Stadium = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Capacity = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Founded = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    ColorA = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ColorB = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {

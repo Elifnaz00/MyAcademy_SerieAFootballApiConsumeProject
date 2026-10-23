@@ -12,151 +12,253 @@ namespace SerieA.Api.Data
             if (context.Teams.Any())
                 return;
 
-    
+
+
 
             var teams = new List<Team>
-            {
-                new Team
-                {
-                    Name = "Inter",
-                    LogoUrl = "/images/teams/inter.png",
-                    City = "Milano",
-                    Stadium = "San Siro"
-                },
-                new Team
-                {
-                    Name = "Milan",
-                    LogoUrl = "/images/teams/milan.png",
-                    City = "Milano",
-                    Stadium = "San Siro"
-                },
-                new Team
-                {
-                    Name = "Juventus",
-                    LogoUrl = "/images/teams/juventus.png",
-                    City = "Torino",
-                    Stadium = "Allianz Stadium"
-                },
-                new Team
-                {
-                    Name = "Napoli",
-                    LogoUrl = "/images/teams/napoli.png",
-                    City = "Napoli",
-                    Stadium = "Stadio Diego Armando Maradona"
-                },
-                new Team
-                {
-                    Name = "Roma",
-                    LogoUrl = "/images/teams/roma.png",
-                    City = "Roma",
-                    Stadium = "Stadio Olimpico"
-                },
-                new Team
-                {
-                    Name = "Lazio",
-                    LogoUrl = "/images/teams/lazio.png",
-                    City = "Roma",
-                    Stadium = "Stadio Olimpico"
-                },
-                new Team
-                {
-                    Name = "Atalanta",
-                    LogoUrl = "/images/teams/atalanta.png",
-                    City = "Bergamo",
-                    Stadium = "Gewiss Stadium"
-                },
-                new Team
-                {
-                    Name = "Fiorentina",
-                    LogoUrl = "/images/teams/fiorentina.png",
-                    City = "Firenze",
-                    Stadium = "Stadio Artemio Franchi"
-                },
-                new Team
-                {
-                    Name = "Bologna",
-                    LogoUrl = "/images/teams/bologna.png",
-                    City = "Bologna",
-                    Stadium = "Stadio Renato Dall'Ara"
-                },
-                new Team
-                {
-                    Name = "Torino",
-                    LogoUrl = "/images/teams/torino.png",
-                    City = "Torino",
-                    Stadium = "Stadio Olimpico Grande Torino"
-                },
-                new Team
-                {
-                    Name = "Genoa",
-                    LogoUrl = "/images/teams/genoa.png",
-                    City = "Genova",
-                    Stadium = "Stadio Luigi Ferraris"
-                },
-                new Team
-                {
-                    Name = "Sampdoria",
-                    LogoUrl = "/images/teams/sampdoria.png",
-                    City = "Genova",
-                    Stadium = "Stadio Luigi Ferraris"
-                },
-                new Team
-                {
-                    Name = "Udinese",
-                    LogoUrl = "/images/teams/udinese.png",
-                    City = "Udine",
-                    Stadium = "Bluenergy Stadium"
-                },
-                new Team
-                {
-                    Name = "Cagliari",
-                    LogoUrl = "/images/teams/cagliari.png",
-                    City = "Cagliari",
-                    Stadium = "Unipol Domus"
-                },
-                new Team
-                {
-                    Name = "Sassuolo",
-                    LogoUrl = "/images/teams/sassuolo.png",
-                    City = "Sassuolo",
-                    Stadium = "Mapei Stadium"
-                },
-                new Team
-                {
-                    Name = "Parma",
-                    LogoUrl = "/images/teams/parma.png",
-                    City = "Parma",
-                    Stadium = "Stadio Ennio Tardini"
-                },
-                new Team
-                {
-                    Name = "Lecce",
-                    LogoUrl = "/images/teams/lecce.png",
-                    City = "Lecce",
-                    Stadium = "Stadio Via del Mare"
-                },
-                new Team
-                {
-                    Name = "Verona",
-                    LogoUrl = "/images/teams/verona.png",
-                    City = "Verona",
-                    Stadium = "Stadio Marcantonio Bentegodi"
-                },
-                new Team
-                {
-                    Name = "Empoli",
-                    LogoUrl = "/images/teams/empoli.png",
-                    City = "Empoli",
-                    Stadium = "Stadio Carlo Castellani"
-                },
-                new Team
-                {
-                    Name = "Monza",
-                    LogoUrl = "/images/teams/monza.png",
-                    City = "Monza",
-                    Stadium = "U-Power Stadium"
-                }
-            };
+{
+    new Team
+    {
+        Name = "Inter",
+        LogoUrl = "/images/teams/inter.jpg",
+        City = "Milano",
+        Stadium = "San Siro",
+        Capacity = "75.817",
+        Founded = "1908",
+        IsActive = true,
+        ColorA = "#0A4FA8",
+        ColorB = "#101418"
+    },
+    new Team
+    {
+        Name = "Milan",
+        LogoUrl = "/images/teams/milan.png",
+        City = "Milano",
+        Stadium = "San Siro",
+        Capacity = "75.817",
+        Founded = "1899",
+        IsActive = true,
+        ColorA = "#FB090B",
+        ColorB = "#000000"
+    },
+    new Team
+    {
+        Name = "Juventus",
+        LogoUrl = "/images/teams/juventus.png",
+        City = "Torino",
+        Stadium = "Allianz Stadium",
+        Capacity = "41.507",
+        Founded = "1897",
+        IsActive = true,
+        ColorA = "#000000",
+        ColorB = "#FFFFFF"
+    },
+    new Team
+    {
+        Name = "Napoli",
+        LogoUrl = "/images/teams/napoli.png",
+        City = "Napoli",
+        Stadium = "Stadio Diego Armando Maradona",
+        Capacity = "54.726",
+        Founded = "1926",
+        IsActive = true,
+        ColorA = "#12A0D7",
+        ColorB = "#FFFFFF"
+    },
+    new Team
+    {
+        Name = "Roma",
+        LogoUrl = "/images/teams/roma.png",
+        City = "Roma",
+        Stadium = "Stadio Olimpico",
+        Capacity = "70.634",
+        Founded = "1927",
+        IsActive = true,
+        ColorA = "#8E1F2F",
+        ColorB = "#F0BC42"
+    },
+    new Team
+    {
+        Name = "Lazio",
+        LogoUrl = "/images/teams/lazio.jpg",
+        City = "Roma",
+        Stadium = "Stadio Olimpico",
+        Capacity = "70.634",
+        Founded = "1900",
+        IsActive = true,
+        ColorA = "#87D8F7",
+        ColorB = "#FFFFFF"
+    },
+    new Team
+    {
+        Name = "Atalanta",
+        LogoUrl = "/images/teams/atalanta.png",
+        City = "Bergamo",
+        Stadium = "Gewiss Stadium",
+        Capacity = "24.950",
+        Founded = "1907",
+        IsActive = true,
+        ColorA = "#0055A4",
+        ColorB = "#000000"
+    },
+    new Team
+    {
+        Name = "Fiorentina",
+        LogoUrl = "/images/teams/fiorentina.png",
+        City = "Firenze",
+        Stadium = "Stadio Artemio Franchi",
+        Capacity = "43.147",
+        Founded = "1926",
+        IsActive = true,
+        ColorA = "#482E92",
+        ColorB = "#FFFFFF"
+    },
+    new Team
+    {
+        Name = "Bologna",
+        LogoUrl = "/images/teams/bologna.png",
+        City = "Bologna",
+        Stadium = "Stadio Renato Dall'Ara",
+        Capacity = "38.279",
+        Founded = "1909",
+        IsActive = true,
+        ColorA = "#CF102D",
+        ColorB = "#1B3A6B"
+    },
+    new Team
+    {
+        Name = "Torino",
+        LogoUrl = "/images/teams/torino.png",
+        City = "Torino",
+        Stadium = "Stadio Olimpico Grande Torino",
+        Capacity = "27.958",
+        Founded = "1906",
+        IsActive = true,
+        ColorA = "#8B1E2D",
+        ColorB = "#FFFFFF"
+    },
+    new Team
+    {
+        Name = "Genoa",
+        LogoUrl = "/images/teams/genoa.png",
+        City = "Genova",
+        Stadium = "Stadio Luigi Ferraris",
+        Capacity = "36.599",
+        Founded = "1893",
+        IsActive = true,
+        ColorA = "#B51F2A",
+        ColorB = "#1B3A6B"
+    },
+    new Team
+    {
+        Name = "Sampdoria",
+        LogoUrl = "/images/teams/sampdoria.png",
+        City = "Genova",
+        Stadium = "Stadio Luigi Ferraris",
+        Capacity = "36.599",
+        Founded = "1946",
+        IsActive = true,
+        ColorA = "#0066B3",
+        ColorB = "#FFFFFF"
+    },
+    new Team
+    {
+        Name = "Udinese",
+        LogoUrl = "/images/teams/udinese.png",
+        City = "Udine",
+        Stadium = "Bluenergy Stadium",
+        Capacity = "25.144",
+        Founded = "1896",
+        IsActive = true,
+        ColorA = "#000000",
+        ColorB = "#FFFFFF"
+    },
+    new Team
+    {
+        Name = "Cagliari",
+        LogoUrl = "/images/teams/cagliari.jpg",
+        City = "Cagliari",
+        Stadium = "Unipol Domus",
+        Capacity = "16.416",
+        Founded = "1920",
+        IsActive = true,
+        ColorA = "#C8102E",
+        ColorB = "#00529F"
+    },
+    new Team
+    {
+        Name = "Sassuolo",
+        LogoUrl = "/images/teams/sassuolo.png",
+        City = "Sassuolo",
+        Stadium = "Mapei Stadium",
+        Capacity = "21.525",
+        Founded = "1920",
+        IsActive = true,
+        ColorA = "#008751",
+        ColorB = "#000000"
+    },
+    new Team
+    {
+        Name = "Parma",
+        LogoUrl = "/images/teams/parma.png",
+        City = "Parma",
+        Stadium = "Stadio Ennio Tardini",
+        Capacity = "22.352",
+        Founded = "1913",
+        IsActive = true,
+        ColorA = "#FFD700",
+        ColorB = "#00529F"
+    },
+    new Team
+    {
+        Name = "Lecce",
+        LogoUrl = "/images/teams/lecce.png",
+        City = "Lecce",
+        Stadium = "Stadio Via del Mare",
+        Capacity = "31.445",
+        Founded = "1908",
+        IsActive = true,
+        ColorA = "#F7D117",
+        ColorB = "#D71920"
+    },
+    new Team
+    {
+        Name = "Verona",
+        LogoUrl = "/images/teams/verona.png",
+        City = "Verona",
+        Stadium = "Stadio Marcantonio Bentegodi",
+        Capacity = "31.713",
+        Founded = "1903",
+        IsActive = true,
+        ColorA = "#0057A8",
+        ColorB = "#F7D117"
+    },
+    new Team
+    {
+        Name = "Empoli",
+        LogoUrl = "/images/teams/empoli.png",
+        City = "Empoli",
+        Stadium = "Stadio Carlo Castellani",
+        Capacity = "16.167",
+        Founded = "1920",
+        IsActive = true,
+        ColorA = "#005CA9",
+        ColorB = "#FFFFFF"
+    },
+    new Team
+    {
+        Name = "Monza",
+        LogoUrl = "/images/teams/monza.jpg",
+        City = "Monza",
+        Stadium = "U-Power Stadium",
+        Capacity = "17.102",
+        Founded = "1912",
+        IsActive = true,
+        ColorA = "#E30613",
+        ColorB = "#FFFFFF"
+    }
+};
+
 
             context.Teams.AddRange(teams);
             context.SaveChanges();

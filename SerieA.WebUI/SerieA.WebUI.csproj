@@ -14,4 +14,8 @@
     <ProjectReference Include="..\SerieA.Api\SerieA.Api.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Areas\Admin\Data\" />
+  </ItemGroup>
+
 </Project>
