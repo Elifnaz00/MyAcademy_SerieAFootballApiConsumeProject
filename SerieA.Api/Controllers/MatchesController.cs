@@ -87,6 +87,27 @@ namespace SerieA.Api.Controllers
                 .Where(x => x.TeamId == dto.AwayTeamId)
                 .OrderBy(x => x.Minute)
                 .ToList();
+
+          
+            dto.HomeCards = dto.MatchCards
+                .Where(x => x.TeamId == dto.HomeTeamId)
+                .OrderBy(x => x.Minute)
+                .ToList();
+
+            dto.AwayCards = dto.MatchCards
+                .Where(x => x.TeamId == dto.AwayTeamId)
+                .OrderBy(x => x.Minute)
+                .ToList();
+
+            dto.HomeSubstitutions = dto.Substitutions
+                .Where(x => x.TeamId == dto.HomeTeamId)
+                .OrderBy(x => x.Minute)
+                .ToList();
+
+            dto.AwaySubstitutions = dto.Substitutions
+                .Where(x => x.TeamId == dto.AwayTeamId)
+                .OrderBy(x => x.Minute)
+                .ToList();
             return Ok(dto);
         }
 

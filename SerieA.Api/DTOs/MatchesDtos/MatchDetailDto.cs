@@ -1,4 +1,5 @@
 ﻿using SerieA.Api.DTOs.MatchCardDtos;
+using SerieA.Api.DTOs.MatchesDtos;
 using SerieA.Api.DTOs.MatchGoalDtos;
 using SerieA.Api.DTOs.SubstitutionDto;
 using SerieA.Api.Entities.Enums;
@@ -28,8 +29,15 @@ public class MatchDetailDto
 
     public int HomeSecondHalfScore { get; set; }
     public int AwaySecondHalfScore { get; set; }
-    public List<ResultMatchGoalDto> HomeGoals { get; set; }
-    public List<ResultMatchGoalDto> AwayGoals { get; set; }
+    public List<MatchEventDto> Events { get; set; } = new();
+    public List<ResultMatchGoalDto> HomeGoals { get; set; } = new();
+    public List<ResultMatchGoalDto> AwayGoals { get; set; } = new();
+
+    public List<ResultMatchCardDto> HomeCards { get; set; } = new();
+    public List<ResultMatchCardDto> AwayCards { get; set; } = new();
+
+    public List<ResultSubstitutionDto> HomeSubstitutions { get; set; } = new();
+    public List<ResultSubstitutionDto> AwaySubstitutions { get; set; } = new();
 
     public List<ResultMatchGoalDto> Goals { get; set; }
     public List<ResultMatchCardDto> MatchCards { get; set; }

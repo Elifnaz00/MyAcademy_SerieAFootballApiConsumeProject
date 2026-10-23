@@ -25,7 +25,7 @@ namespace SerieA.Api.Controllers
         public async Task<IActionResult> GetStandings()
         {
             var finishedMatches= await _appDbContext.Matches.AsNoTracking().Include(x=> x.AwayTeam).Include(x=>x.HomeTeam).Where(a=>a.Status == MatchStatus.Finished).ToListAsync();
-            return Ok();
+            return Ok(finishedMatches);
         }
     }
 }

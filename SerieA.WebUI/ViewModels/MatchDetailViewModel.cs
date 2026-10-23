@@ -42,6 +42,13 @@ namespace SerieA.WebUI.ViewModels
         public List<MatchCardViewModel> MatchCards { get; set; } = new();
 
         public List<SubstitutionViewModel> Substitutions { get; set; } = new();
+
+
+        public List<MatchCardViewModel> HomeCards { get; set; } = new();
+        public List<MatchCardViewModel> AwayCards { get; set; } = new();
+
+        public List<SubstitutionViewModel> HomeSubstitutions { get; set; } = new();
+        public List<SubstitutionViewModel> AwaySubstitutions { get; set; } = new();
     }
 
 
