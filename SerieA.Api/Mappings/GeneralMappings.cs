@@ -25,6 +25,8 @@ namespace SerieA.Api.Mappings
             CreateMap<Substitution, ResultSubstitutionDto>();
             CreateMap<MatchGoal, ResultMatchGoalDto>();
             CreateMap<Team, TeamDto>();
+            CreateMap<UpdateTeamDto, Team>();
+            CreateMap<CreateTeamDto, Team>();
           
         }
     }
