@@ -6,7 +6,7 @@ using SerieA.Api.Context;
 using SerieA.Api.DTOs.TeamDtos;
 using SerieA.Api.Entities;
 
-namespace SerieA.Api.Controllers
+namespace SerieA.Api.Controllers.Admin
 {
     [Route("api/admin/teams")]
     [ApiController]
@@ -62,6 +62,18 @@ namespace SerieA.Api.Controllers
             await _appDbContext.Teams.AddAsync(team);
             await _appDbContext.SaveChangesAsync();
             return CreatedAtAction(nameof(GetTeam),new { id = team.Id }, team);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteTeam(int id)
+        {
+            var team= await _appDbContext.Teams.FindAsync(id);
+            if(team is null)
+                return NotFound("Takım bulunamadı");
+
+            _appDbContext.Teams.Remove(team);
+            await _appDbContext.SaveChangesAsync();
+            return NoContent();
         }
     }
 }

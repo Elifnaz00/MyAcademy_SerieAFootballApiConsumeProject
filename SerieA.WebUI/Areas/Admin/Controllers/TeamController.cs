@@ -96,9 +96,19 @@ namespace SerieA.WebUI.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            using HttpClient client = new HttpClient();
+            var response = await client.DeleteAsync($"https://localhost:7278/api/admin/teams/{id}");
+            if (!response.IsSuccessStatusCode)
+                return BadRequest("Takım silinemedi.");
 
-      
+            return RedirectToAction("Index");
+        }
 
-       
+
+
+
     }
 }
