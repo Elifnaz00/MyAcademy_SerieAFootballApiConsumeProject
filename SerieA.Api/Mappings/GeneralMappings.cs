@@ -29,9 +29,9 @@ namespace SerieA.Api.Mappings
             CreateMap<CreateTeamDto, Team>();
             CreateMap<CreateMatchDto, Match>();
             CreateMap<UpdateMatchDto, Match>();
-            CreateMap<Match, MatchDto>().ForMember(dest => dest.AwayName, opt=> opt.MapFrom(src=> src.AwayTeam.Name));
-            CreateMap<Match, MatchDto>().ForMember(dest => dest.HomeName, opt=> opt.MapFrom(src=> src.HomeTeam.Name));
-          
+            CreateMap<Match, MatchDto>().ForMember(dest => dest.AwayName, opt=> opt.MapFrom(src=> src.AwayTeam.Name))
+               .ForMember(dest => dest.HomeName, opt => opt.MapFrom(src => src.HomeTeam.Name));
+
         }
     }
 }
