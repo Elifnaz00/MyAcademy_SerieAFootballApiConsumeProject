@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SerieA.Api.Entities.Enums;
 using SerieA.WebUI.Areas.Admin.Models.MatchModels;
-using SerieA.WebUI.Areas.Admin.Models.TeamModels;
 using SerieA.WebUI.ViewModels;
 
 namespace SerieA.WebUI.Areas.Admin.Controllers
@@ -12,13 +12,32 @@ namespace SerieA.WebUI.Areas.Admin.Controllers
         {
             using HttpClient client = new HttpClient();
 
-            var response = await client.GetAsync("https://localhost:7278/api/admin/matches");
+            var teamsResponse = await client.GetAsync(
+                "https://localhost:7278/api/admin/teams");
+
+            if (!teamsResponse.IsSuccessStatusCode)
+            {
+                ViewBag.Teams = new List<TeamViewModel>();
+               
+            }
+            var teams = await teamsResponse.Content
+                      .ReadFromJsonAsync<List<TeamViewModel>>();
+
+            ViewBag.Teams = teams ?? new List<TeamViewModel>();
+
+
+            var response = await client.GetAsync(
+                "https://localhost:7278/api/admin/matches");
+
             if (!response.IsSuccessStatusCode)
             {
                 return View(new List<MatchListViewModel>());
             }
-            var data = await response.Content.ReadFromJsonAsync<List<MatchListViewModel>>();
-            return View(data);
+
+            var data = await response.Content
+                .ReadFromJsonAsync<List<MatchListViewModel>>();
+
+            return View(data ?? new List<MatchListViewModel>());
         }
 
 
@@ -30,9 +49,9 @@ namespace SerieA.WebUI.Areas.Admin.Controllers
             var response = await client.GetAsync($"https://localhost:7278/api/admin/matches/{id}");
             if (!response.IsSuccessStatusCode)
             {
-                return View(new TeamViewModel());
+                return View(new MatchViewModel());
             }
-            var data = await response.Content.ReadFromJsonAsync<TeamViewModel>();
+            var data = await response.Content.ReadFromJsonAsync<MatchViewModel>();
             return View(data);
         }
 
@@ -45,9 +64,9 @@ namespace SerieA.WebUI.Areas.Admin.Controllers
             var response = await client.GetAsync($"https://localhost:7278/api/admin/matches/{id}");
             if (!response.IsSuccessStatusCode)
             {
-                return View(new UpdateTeamViewModel());
+                return View(new UpdateMatchViewModel());
             }
-            var data = await response.Content.ReadFromJsonAsync<UpdateTeamViewModel>();
+            var data = await response.Content.ReadFromJsonAsync<UpdateMatchViewModel>();
             if (data is null)
                 return NotFound();
 
@@ -56,40 +75,40 @@ namespace SerieA.WebUI.Areas.Admin.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Update(UpdateTeamViewModel updateTeamViewModel)
+        public async Task<IActionResult> Update(UpdateMatchViewModel updateMatchViewModel)
         {
             if (!ModelState.IsValid)
-                return View(updateTeamViewModel);
+                return View(updateMatchViewModel);
 
 
             using HttpClient client = new HttpClient();
 
 
-            var response = await client.PutAsJsonAsync($"https://localhost:7278/api/admin/matches/{updateTeamViewModel.Id}", updateTeamViewModel);
+            var response = await client.PutAsJsonAsync($"https://localhost:7278/api/admin/matches/{updateMatchViewModel.Id}", updateMatchViewModel);
 
             if (!response.IsSuccessStatusCode)
-                return BadRequest("Takım güncellenemedi.");
+                return BadRequest("Maç güncellenemedi.");
 
             return RedirectToAction("Index");
         }
 
-        public IActionResult Create() { return View(); }
-
+      
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateTeamViewModel createTeamViewModel)
+        public async Task<IActionResult> Create(CreateMatchViewModel createMatchViewModel)
         {
             if (!ModelState.IsValid)
-                return View(createTeamViewModel);
+                ViewBag.ErrorMessage = "Lütfen girdiğiniz bilgileri kontrol edin.";
 
             using HttpClient client = new HttpClient();
 
-            var response = await client.PostAsJsonAsync("https://localhost:7278/api/admin/matches", createTeamViewModel);
+            var response = await client.PostAsJsonAsync("https://localhost:7278/api/admin/matches", createMatchViewModel);
             if (!response.IsSuccessStatusCode)
-                return BadRequest("Takım eklenemedi.");
+                return BadRequest("Maç eklenemedi.");
 
             return RedirectToAction("Index");
         }
+
 
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
@@ -97,7 +116,7 @@ namespace SerieA.WebUI.Areas.Admin.Controllers
             using HttpClient client = new HttpClient();
             var response = await client.DeleteAsync($"https://localhost:7278/api/admin/matches/{id}");
             if (!response.IsSuccessStatusCode)
-                return BadRequest("Takım silinemedi.");
+                return BadRequest("Maç silinemedi.");
 
             return RedirectToAction("Index");
         }

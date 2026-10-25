@@ -32,7 +32,7 @@ namespace SerieA.Api.Controllers.Admin
 
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetTeam(int id)
+        public async Task<IActionResult> GetMatch(int id)
         {
             var matches = await _appDbContext.Teams.FindAsync(id);
             if (matches is null)
@@ -44,7 +44,7 @@ namespace SerieA.Api.Controllers.Admin
 
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateTeam(int id, UpdateMatchDto updateMatchDto)
+        public async Task<IActionResult> UpdateMatch(int id, UpdateMatchDto updateMatchDto)
         {
             var team = await _appDbContext.Matches.FindAsync(id);
             if (team is null)
@@ -57,16 +57,16 @@ namespace SerieA.Api.Controllers.Admin
 
 
         [HttpPost]
-        public async Task<IActionResult> CreateTeam(CreateMatchDto createMatchDto)
+        public async Task<IActionResult> CreateMatch(CreateMatchDto createMatchDto)
         {
             var match = _mapper.Map<Match>(createMatchDto);
             await _appDbContext.Matches.AddAsync(match);
             await _appDbContext.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetTeam), new { id = match.Id }, match);
+            return CreatedAtAction(nameof(GetMatch), new { id = match.Id }, match);
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTeam(int id)
+        public async Task<IActionResult> DeleteMatch(int id)
         {
             var team = await _appDbContext.Matches.FindAsync(id);
             if (team is null)

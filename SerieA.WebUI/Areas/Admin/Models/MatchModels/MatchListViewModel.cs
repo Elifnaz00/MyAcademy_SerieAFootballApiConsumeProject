@@ -18,7 +18,7 @@ namespace SerieA.WebUI.Areas.Admin.Models.MatchModels
 
         public int HomeScore { get; set; }
         public int AwayScore { get; set; }
-
+        public string Stadium { get; set; }
         public MatchStatus Status { get; set; }
     }
 }

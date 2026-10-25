@@ -18,6 +18,7 @@ namespace SerieA.Api.DTOs.MatchesDtos
 
         public int HomeScore { get; set; }
         public int AwayScore { get; set; }
+        public string Stadium { get; set; }
 
         public MatchStatus Status { get; set; }
     }
