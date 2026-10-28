@@ -78,7 +78,7 @@ Proje kapsamında aşağıdaki lig ve maç verisi gereksinimleri uygulanmıştı
 ![Fikstür Detayı](screenshots/fixturedetail1.png)
 <br>
 
-![Fikstür Detayı2](screenshots/fixturedetail2.png)
+![Fikstür Detayı2](screenshots/fixturdetail2.png)
 <br>
 
 ![Fikstür Detayı3](screenshots/fixturedetail3.png)
