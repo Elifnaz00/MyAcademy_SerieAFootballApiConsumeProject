@@ -198,7 +198,6 @@ API'nin Swagger arayüzüne şu adresten erişebilirsin:
 - LINQ ile veri sorgulama ve sıralama
 - Maç sonuçlarından dinamik lig puan durumu hesaplama
 - DTO ve ViewModel kullanımı
-- FluentValidation ile doğrulama kuralları oluşturma
 - HTTP istekleri ve hata durumlarını yönetme
 - Yönetim paneli ve responsive arayüz geliştirme
 
